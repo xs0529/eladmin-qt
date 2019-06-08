@@ -2,27 +2,27 @@
   <div class="app-container">
     <eHeader :query="query"/>
     <!--表格渲染-->
-    <el-table v-loading="loading" ref="table" :data="data" size="small" style="width: 100%;">
-      <el-table-column type="selection" width="55"/>
-      <el-table-column prop="filename" label="文件名"/>
-      <el-table-column prop="username" label="上传者"/>
-      <el-table-column ref="table" :show-overflow-tooltip="true" prop="url" label="缩略图">
+    <el-table v-loading="loading" :data="data" size="small" style="width: 100%;">
+      <el-table-column prop="articleType" label="文章类型"/>
+      <el-table-column prop="articleTitle" label="文章标题"/>
+      <el-table-column prop="creatTime" label="creatTime">
         <template slot-scope="scope">
-          <a :href="scope.row.url" style="color: #42b983" target="_blank"><img :src="scope.row.url" alt="点击打开" class="el-avatar"></a>
+          <span>{{ parseTime(scope.row.creatTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column prop="size" label="文件大小"/>
-      <el-table-column prop="url" label="文件地址"/>
-      <el-table-column prop="height" label="高度"/>
-      <el-table-column prop="width" label="宽度"/>
-      <el-table-column width="180px" prop="createTime" label="创建日期">
+      <el-table-column prop="modifyTime" label="modifyTime">
         <template slot-scope="scope">
-          <span>{{ parseTime(scope.row.createTime) }}</span>
+          <span>{{ parseTime(scope.row.modifyTime) }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="checkPermission(['ADMIN','PICTURE_ALL','PICTURE_DELETE'])" label="操作" width="100px" align="center">
+      <el-table-column prop="articleStatus" label="文章状态"/>
+      <el-table-column prop="username" label="用户名"/>
+      <el-table-column prop="sourceType" label="来源类型"/>
+      <el-table-column v-if="checkPermission(['ADMIN','ARTICLE_ALL','ARTICLE_EDIT','ARTICLE_DELETE'])" label="操作" width="150px" align="center">
         <template slot-scope="scope">
+          <edit v-permission="['ADMIN','ARTICLE_ALL','ARTICLE_EDIT']" :data="scope.row" :sup_this="sup_this"/>
           <el-popover
+            v-permission="['ADMIN','ARTICLE_ALL','ARTICLE_DELETE']"
             :ref="scope.row.id"
             placement="top"
             width="180">
@@ -47,13 +47,14 @@
 </template>
 
 <script>
-import checkPermission from '@/utils/permission' // 权限判断函数
+import checkPermission from '@/utils/permission'
 import initData from '@/mixins/initData'
-import { del } from '@/api/picture'
+import { del } from '@/api/article'
 import { parseTime } from '@/utils/index'
 import eHeader from './module/header'
+import edit from './module/edit'
 export default {
-  components: { eHeader },
+  components: { eHeader, edit },
   mixins: [initData],
   data() {
     return {
@@ -69,12 +70,12 @@ export default {
     parseTime,
     checkPermission,
     beforeInit() {
-      this.url = 'api/pictures'
+      this.url = 'api/article'
       const sort = 'id,desc'
+      this.params = { page: this.page, size: this.size, sort: sort }
       const query = this.query
       const type = query.type
       const value = query.value
-      this.params = { page: this.page, size: this.size, sort: sort }
       if (type && value) { this.params[type] = value }
       return true
     },

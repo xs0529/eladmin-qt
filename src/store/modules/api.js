@@ -12,7 +12,7 @@ const api = {
     // Sql 监控
     sqlApi: baseUrl + '/druid',
     // swagger
-    swaggerApi: baseUrl + '/swagger-ui.html'
+    swaggerApi: baseUrl + '/doc.html'
   }
 }
 
