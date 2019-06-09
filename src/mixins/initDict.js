@@ -16,6 +16,11 @@ export default {
           reject(err)
         })
       })
+    },
+    getDictS(name, data) {
+      get(name).then(res => {
+        data = res.content
+      })
     }
   }
 }

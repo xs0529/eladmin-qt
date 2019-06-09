@@ -72,6 +72,21 @@ export const constantRouterMap = [
         meta: { title: '个人中心', icon: 'user' }
       }
     ]
+  },
+  {
+    path: '/article',
+    component: Layout,
+    hidden: true,
+    redirect: 'noredirect',
+    children: [
+      {
+        path: 'add/:id(\\d+)',
+        component: () => import('@/views/article/module/add'),
+        name: '文章编辑',
+        meta: { title: '文章编辑', icon: 'user' },
+        breadcrumb: false
+      }
+    ]
   }
   // { path: '*', redirect: '/404', hidden: true }
 ]

@@ -23,16 +23,14 @@ export default {
       const _this = this.$refs.form
       _this.form = {
         id: this.data.id,
-        articleType: this.data.articleType,
-        articleContent: this.data.articleContent,
-        articleTitle: this.data.articleTitle,
-        creatTime: this.data.creatTime,
-        modifyTime: this.data.modifyTime,
-        articleStatus: this.data.articleStatus,
-        createUser: this.data.createUser,
-        username: this.data.username,
-        articleSource: this.data.articleSource,
-        sourceType: this.data.sourceType
+        beanName: this.data.beanName,
+        cronExpression: this.data.cronExpression,
+        isPause: this.data.isPause,
+        jobName: this.data.jobName,
+        methodName: this.data.methodName,
+        params: this.data.params,
+        remark: this.data.remark,
+        updateTime: this.data.updateTime
       }
       _this.dialog = true
     }

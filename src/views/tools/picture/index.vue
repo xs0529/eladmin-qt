@@ -4,7 +4,14 @@
     <!--表格渲染-->
     <el-table v-loading="loading" ref="table" :data="data" size="small" style="width: 100%;">
       <el-table-column type="selection" width="55"/>
-      <el-table-column prop="filename" label="文件名"/>
+      <el-table-column prop="oldName" label="原文件名"/>
+      <el-table-column prop="fileType" label="文件类型">
+        <template slot-scope="scope">
+          <div v-for="item in file_type" :key="item.id">
+            <span v-if="item.value==scope.row.fileType+''">{{ item.label }}</span>
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="username" label="上传者"/>
       <el-table-column ref="table" :show-overflow-tooltip="true" prop="url" label="缩略图">
         <template slot-scope="scope">
@@ -48,6 +55,7 @@
 
 <script>
 import checkPermission from '@/utils/permission' // 权限判断函数
+import { get } from '@/api/dictDetail'
 import initData from '@/mixins/initData'
 import { del } from '@/api/picture'
 import { parseTime } from '@/utils/index'
@@ -63,18 +71,26 @@ export default {
   created() {
     this.$nextTick(() => {
       this.init()
+      this.getSelectData()
     })
   },
   methods: {
+    getSelectData() {
+      get('file_type').then(res => {
+        this.file_type = res.content
+      })
+    },
     parseTime,
     checkPermission,
     beforeInit() {
-      this.url = 'api/pictures'
+      this.url = 'api/file'
       const sort = 'id,desc'
       const query = this.query
       const type = query.type
       const value = query.value
+      const fileType = query.fileType
       this.params = { page: this.page, size: this.size, sort: sort }
+      if (fileType) { this.params['fileType'] = fileType }
       if (type && value) { this.params[type] = value }
       return true
     },

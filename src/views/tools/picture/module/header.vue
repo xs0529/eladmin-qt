@@ -5,6 +5,9 @@
     <el-select v-model="query.type" clearable placeholder="类型" class="filter-item" style="width: 130px">
       <el-option v-for="item in queryTypeOptions" :key="item.key" :label="item.display_name" :value="item.key"/>
     </el-select>
+    <el-select v-model="query.fileType" clearable placeholder="文件类型" class="filter-item" style="width: 120px" @change="toQuery">
+      <el-option v-for="item in file_type" :key="item.id" :label="item.label" :value="item.value"/>
+    </el-select>
     <el-button class="filter-item" size="mini" type="success" icon="el-icon-search" @click="toQuery">搜索</el-button>
     <!-- 上传 -->
     <div style="display: inline-block;margin: 0px 2px;">
@@ -31,6 +34,7 @@
 </template>
 
 <script>
+import { get } from '@/api/dictDetail'
 import eForm from './form'
 import { delAll } from '@/api/picture'
 // 查询条件
@@ -39,7 +43,8 @@ export default {
   props: {
     query: {
       type: Object,
-      required: true
+      required: true,
+      fileType: null
     }
   },
   data() {
@@ -47,12 +52,23 @@ export default {
       downloadLoading: false,
       delLoading: false,
       queryTypeOptions: [
-        { key: 'filename', display_name: '文件名' },
+        { key: 'oldName', display_name: '文件名' },
         { key: 'username', display_name: '用户名' }
-      ]
+      ],
+      file_type: []
     }
   },
+  created() {
+    this.$nextTick(() => {
+      this.getSelectData()
+    })
+  },
   methods: {
+    getSelectData() {
+      get('file_type').then(res => {
+        this.file_type = res.content
+      })
+    },
     toQuery() {
       this.$parent.page = 0
       this.$parent.init()

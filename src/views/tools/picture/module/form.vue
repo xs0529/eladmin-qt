@@ -1,6 +1,7 @@
 <template>
-  <el-dialog :visible.sync="dialog" append-to-body width="600px" @close="doSubmit">
+  <el-dialog :visible.sync="dialog" append-to-body style="text-align: center" width="600px" @close="doSubmit">
     <el-upload
+      :class="upload-demo"
       :on-preview="handlePictureCardPreview"
       :before-remove="handleBeforeRemove"
       :on-success="handleSuccess"
@@ -8,8 +9,9 @@
       :headers="headers"
       :file-list="fileList"
       :action="imagesUploadApi"
-      list-type="picture-card">
-      <i class="el-icon-plus"/>
+      :drag="true">
+      <i class="el-icon-upload"/>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
     </el-upload>
     <el-dialog :visible.sync="dialogVisible">
       <img :src="dialogImageUrl" width="100%" alt="">

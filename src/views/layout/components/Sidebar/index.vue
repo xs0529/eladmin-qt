@@ -10,7 +10,7 @@
       text-color="#bfcbd9"
       active-text-color="#409EFF"
     >
-      <Logo :is-collapse="isCollapse"/>
+      <!-- <Logo :is-collapse="isCollapse"/>-->
       <sidebar-item v-for="route in permission_routers" :key="route.path" :item="route" :base-path="route.path"/>
     </el-menu>
   </el-scrollbar>
@@ -19,9 +19,8 @@
 <script>
 import { mapGetters } from 'vuex'
 import SidebarItem from './SidebarItem'
-import Logo from './Logo'
 export default {
-  components: { SidebarItem, Logo },
+  components: { SidebarItem },
   computed: {
     ...mapGetters([
       'permission_routers',

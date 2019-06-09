@@ -1,35 +1,29 @@
 <template>
   <el-dialog :append-to-body="true" :visible.sync="dialog" :title="isAdd ? '新增' : '编辑'" width="500px">
     <el-form ref="form" :model="form" :rules="rules" size="small" label-width="80px">
-      <el-form-item label="文章类型" >
-        <el-input v-model="form.articleType" style="width: 370px;"/>
+      <el-form-item label="Spring Bean名称" >
+        <el-input v-model="form.beanName" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="文章内容" >
-        <el-input v-model="form.articleContent" style="width: 370px;"/>
+      <el-form-item label="cron 表达式" >
+        <el-input v-model="form.cronExpression" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="文章标题" >
-        <el-input v-model="form.articleTitle" style="width: 370px;"/>
+      <el-form-item label="状态：1暂停、0启用" >
+        <el-input v-model="form.isPause" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="creatTime" >
-        <el-input v-model="form.creatTime" style="width: 370px;"/>
+      <el-form-item label="任务名称" >
+        <el-input v-model="form.jobName" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="modifyTime" >
-        <el-input v-model="form.modifyTime" style="width: 370px;"/>
+      <el-form-item label="方法名称" >
+        <el-input v-model="form.methodName" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="文章状态" >
-        <el-input v-model="form.articleStatus" style="width: 370px;"/>
+      <el-form-item label="参数" >
+        <el-input v-model="form.params" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="创建人id" >
-        <el-input v-model="form.createUser" style="width: 370px;"/>
+      <el-form-item label="备注" >
+        <el-input v-model="form.remark" style="width: 370px;"/>
       </el-form-item>
-      <el-form-item label="用户名" >
-        <el-input v-model="form.username" style="width: 370px;"/>
-      </el-form-item>
-      <el-form-item label="文章来源（转载时的url）" >
-        <el-input v-model="form.articleSource" style="width: 370px;"/>
-      </el-form-item>
-      <el-form-item label="来源类型" >
-        <el-input v-model="form.sourceType" style="width: 370px;"/>
+      <el-form-item label="创建或更新日期" >
+        <el-input v-model="form.updateTime" style="width: 370px;"/>
       </el-form-item>
     </el-form>
     <div slot="footer" class="dialog-footer">
@@ -40,7 +34,7 @@
 </template>
 
 <script>
-import { add, edit } from '@/api/article'
+import { add, edit } from '@/api/quartzJob'
 export default {
   props: {
     isAdd: {
@@ -57,16 +51,14 @@ export default {
       loading: false, dialog: false,
       form: {
         id: '',
-        articleType: '',
-        articleContent: '',
-        articleTitle: '',
-        creatTime: '',
-        modifyTime: '',
-        articleStatus: '',
-        createUser: '',
-        username: '',
-        articleSource: '',
-        sourceType: ''
+        beanName: '',
+        cronExpression: '',
+        isPause: '',
+        jobName: '',
+        methodName: '',
+        params: '',
+        remark: '',
+        updateTime: ''
       },
       rules: {
       }
@@ -117,16 +109,14 @@ export default {
       this.$refs['form'].resetFields()
       this.form = {
         id: '',
-        articleType: '',
-        articleContent: '',
-        articleTitle: '',
-        creatTime: '',
-        modifyTime: '',
-        articleStatus: '',
-        createUser: '',
-        username: '',
-        articleSource: '',
-        sourceType: ''
+        beanName: '',
+        cronExpression: '',
+        isPause: '',
+        jobName: '',
+        methodName: '',
+        params: '',
+        remark: '',
+        updateTime: ''
       }
     }
   }
